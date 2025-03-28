@@ -65,15 +65,38 @@ El dataset se descarga desde:
 
 ## 4. Pasos de Ejecución
 
-### 4.1 Levantar Elasticsearch con Docker
+### 4.1 Clonar proyecto en local
+
+Para puebas locales:
+
+```bash
+https://github.com/Erick-Tx/Prueba_Tecnica_Tipti.git
+```
+
+### 4.2 Crear y activar entorno virtual (O crearlo directamente en PyCharm)
+
+Crea y activa un entorno virtual:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 4.3 Levantar Elasticsearch con Docker
 
 Utiliza Docker Compose para levantar el clúster:
 
 ```bash
 docker-compose up -d 
 ```
+### 4.4 Instalación de las dependencias
 
-### 4.2 Crear el Índice en Elasticsearch
+Utilizamos el archivo `requirements.txt` para instalar todos las dependencias necesarias para este proyecto:
+
+```bash
+pip install -r requirements.txt 
+```
+### 4.5 Crear el Índice en Elasticsearch
 
 Ejecuta el script para crear el índice:
 
@@ -82,7 +105,7 @@ python es_index.py
 ```
 Este script eliminará el índice si ya existe y lo creará nuevamente con el mapping adecuado, incluyendo el campo `embedding` de 768 dimensiones.
 
-### 4.3 Ingesta de Datos
+### 4.6 Ingesta de Datos
 Carga el catálogo de productos desde el CSV en Elasticsearch:
 
 ```bash
@@ -90,7 +113,7 @@ python ingest_data.py
 ```
 El script realiza la limpieza de campos como precios, número de ratings, etc.
 
-### 4.4 Actualización de Embeddings
+### 4.7 Actualización de Embeddings
 Utiliza el modelo all-mpnet-base-v2 para generar y actualizar los embeddings a partir del campo `name`:
 
 ```bash
@@ -98,7 +121,7 @@ python update_embeddings.py
 ```
 El script muestra mensajes de depuración cada cierto número de documentos procesados y, al final, indica el total de documentos actualizados.
 
-### 4.5 Levantar la API
+### 4.8 Levantar la API
 Inicia la API en Flask:
 
 ```bash
@@ -144,4 +167,23 @@ http://127.0.0.1:5000/top_products
 http://127.0.0.1:5000/top_products?limit=5&main_category=tv,%20audio%20%26%20cameras
 ```
 ![](images/5.png)
+
+## 6. Conclusión
+
+Durante el desarrollo de este proyecto se presentaron varios desafíos que permitieron optimizar la solución y adquirir valiosas lecciones:
+
+- **Manejo de Dimensiones y Cambio de Modelo:**  
+  Inicialmente se presentó un problema con las dimensiones de los embeddings, ya que se generaban vectores de 384 dimensiones mientras que el mapping del índice estaba configurado para 768. Para resolver este conflicto se optó por cambiar al modelo `all-mpnet-base-v2`, que produce embeddings de 768 dimensiones, garantizando la coherencia entre los datos indexados y los vectores utilizados en las consultas semánticas.
+
+- **Validación y Manejo de Errores:**  
+  Se implementaron validaciones en cada etapa del proceso, desde la conexión a Elasticsearch y la lectura del CSV hasta la verificación de parámetros en los endpoints de la API. Esto permitió detectar y resolver errores de manera temprana, fortaleciendo la robustez y confiabilidad del sistema.
+
+- **Uso de Plantillas Mustache:**  
+  La utilización de un template Mustache para la construcción dinámica de consultas ha facilitado la inyección de variables y la personalización de las búsquedas. Esta estrategia ha contribuido a mantener un código modular y fácil de mantener, además de adaptarse a posibles cambios en los requerimientos.
+
+- **Priorización de Resultados y Funcionalidades Adicionales (Desarrollo Extra):**  
+  La implementación del endpoint `/top_products` permite listar los productos mejor valorados, aportando un valor adicional a la experiencia del usuario al identificar rápidamente los productos con mejores calificaciones.
+
+En resumen, este proyecto no solo cumple con los requerimientos técnicos solicitados, sino que también demuestra la capacidad de adaptarse y solucionar desafíos reales en el manejo de datos y consultas semánticas. La experiencia adquirida en la optimización de dimensiones, validación de entradas y estructuración de consultas sienta una sólida base para futuros desarrollos y escalabilidad en sistemas de búsqueda.
+
 
