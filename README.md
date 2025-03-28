@@ -113,15 +113,16 @@ Realiza búsquedas utilizando el template Mustache.
 - **Ejemplo 1:** Buscar productos que contengan `"Redmi"` y que tengan la categoría exacta `"tv, audio & cameras"`:
 ```bash
 http://127.0.0.1:5000/search?search_box=Redmi&main_category=tv,%20audio%20%26%20cameras
-
-<img src="images/1.png" alt="JSON de salida" width="300"/>
 ```
+![](images/1.png){width='100px'}
+
+
 - **Ejemplo 2:** Buscar productos que contengan `"OnePlus"` (sin filtrar por categoría):
 ```bash
 http://127.0.0.1:5000/search?search_box=OnePlus
+```
 
 <img src="images/2.png" alt="JSON de salida" width="300"/>
-```
 ### 5.2 /similar_products
 Calcula el embedding del producto consultado y devuelve el Top 5 de productos más similares (usando `cosineSimilarity`).
 - **Ejemplo:** Buscar productos similares a
@@ -129,21 +130,18 @@ Calcula el embedding del producto consultado y devuelve el Top 5 de productos m�
 (Recuerda codificar correctamente espacios y caracteres especiales)
 ```bash
 http://127.0.0.1:5000/similar_products?product_name=Redmi%2010%20Power%20(Power%20Black,%208GB%20RAM,%20128GB%20Storage)
-
-<img src="images/3.png" alt="JSON de salida" width="300"/>
 ```
+<img src="images/3.png" alt="JSON de salida" width="300"/>
 ### 5.3 /top_products
 Devuelve los productos mejor valorados, con opción de filtrar por categoría y definir un límite de resultados.
 - **Ejemplo 1:** Los 10 productos mejor valorados (sin filtro de categoría):
 ```bash
 http://127.0.0.1:5000/top_products
-
-<img src="images/4.png" alt="JSON de salida" width="300"/>
 ```
+<img src="images/4.png" alt="JSON de salida" width="300"/>
 - **Ejemplo 2:** Los 5 productos mejor valorados de la categoría "tv, audio & cameras":
 ```bash
 http://127.0.0.1:5000/top_products?limit=5&main_category=tv,%20audio%20%26%20cameras
-
+```
 <img src="images/5.png" alt="JSON de salida" width="300"/>
 
-```
