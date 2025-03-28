@@ -1,0 +1,27 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "name": "{{search_box}}"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term": {
+            "main_category": "{{main_category}}"
+          }
+        }
+      ]
+    }
+  },
+  "sort": [
+    {
+      "ratings": {
+        "order": "desc"
+      }
+    }
+  ]
+}
